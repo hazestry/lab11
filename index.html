@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwipeHeart - Сайт знакомств</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+              <div class="logo">
+            <h1>
+                SwipeHeart
+                <svg class="infinity-svg" viewBox="0 0 87 30" xmlns="http://www.w3.org/2000/svg">
+                    <path id="outline" d="M22,15 C22,8 17,0 8,0 C-1,0 -6,8 -6,15 C-6,22 -1,30 8,30 C17,30 22,22 22,15 C22,8 27,0 36,0 C45,0 50,8 50,15 C50,22 45,30 36,30 C27,30 22,22 22,15" 
+                          fill="none" stroke="white" stroke-width="2" stroke-linecap="round"
+                          transform="translate(21.5, 0)"/>
+                </svg>
+            </h1>
+        </div>
+
+      <div class="search-filters">
+          <div class="search-row">
+              <div class="search-group">
+                  <label for="search-name">Имя:</label>
+                  <input type="text" id="search-name" placeholder="Введите имя">
+              </div>
+              <div class="search-group">
+                <label for="search-age-min">Возраст от:</label>
+                <input type="number" id="search-age-min" placeholder="18" min="18" max="80">
+              </div>
+              <div class="search-group">
+                <label for="search-age-max">Возраст до:</label>
+                <input type="number" id="search-age-max" placeholder="80" min="18" max="80">
+            </div>
+            </div>
+            <div class="search-row">
+                <div class="search-group">
+                    <label for="search-city">Город:</label>
+                    <select id="search-city">
+                        <option value="">Все города</option>
+                        <option value="Москва">Москва</option>
+                        <option value="Санкт-Петербург">Санкт-Петербург</option>
+                        <option value="Новосибирск">Новосибирск</option>
+                        <option value="Екатеринбург">Екатеринбург</option>
+                        <option value="Казань">Казань</option>
+                        <option value="Нижний Новгород">Нижний Новгород</option>
+                    </select>
+                </div>
+                <div class="search-group">
+                    <label for="search-education">Образование:</label>
+                    <select id="search-education">
+                        <option value="">Любое</option>
+                        <option value="Среднее">Среднее</option>
+                        <option value="Высшее">Высшее</option>
+                        <option value="Специальное">Специальное</option>
+                    </select>
+                </div>
+                <div class="search-group">
+                    <label for="search-profession">Профессия:</label>
+                    <input type="text" id="search-profession" placeholder="Введите профессию">
+                </div>
+            </div>
+            <div class="search-row">
+                <div class="search-group">
+                    <label for="search-interests">Интересы:</label>
+                    <input type="text" id="search-interests" placeholder="Спорт, музыка, путешествия...">
+                </div>
+                <div class="search-group">
+                    <label for="search-relationship">Цель знакомства:</label>
+                    <select id="search-relationship">
+                        <option value="">Любая</option>
+                        <option value="Серьезные отношения">Серьезные отношения</option>
+                        <option value="Дружба">Дружба</option>
+                        <option value="Общение">Общение</option>
+                    </select>
+                </div>
+                <div class="search-group">
+                    <label for="search-status">Семейное положение:</label>
+                    <select id="search-status">
+                        <option value="">Любое</option>
+                        <option value="Холост/Не замужем">Холост/Не замужем</option>
+                        <option value="В разводе">В разводе</option>
+                        <option value="Вдовец/Вдова">Вдовец/Вдова</option>
+                    </select>
+                </div>
+            </div>
+            <div class="search-row search-row-reset">
+              <button id="resetButton">Сбросить все фильтры</button>
+            </div>
+        </div>
+
+        <div id="profiles-container" class="profiles-grid"></div>
+        <div id="no-results" class="no-results" style="display: none;">
+            Профили не найдены. Попробуйте изменить параметры поиска.
+        </div>
+    </div>
+
+    <div id="message-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Сообщения</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div id="messages-container" class="messages-container"></div>
+            <div class="message-input-container">
+                <div class="emoji-panel">
+                    <button class="emoji-btn" data-emoji="😊">😊</button>
+                    <button class="emoji-btn" data-emoji="😍">😍</button>
+                    <button class="emoji-btn" data-emoji="🥰">🥰</button>
+                    <button class="emoji-btn" data-emoji="😘">😘</button>
+                    <button class="emoji-btn" data-emoji="💕">💕</button>
+                    <button class="emoji-btn" data-emoji="❤️">❤️</button>
+                    <button class="emoji-btn" data-emoji="💖">💖</button>
+                    <button class="emoji-btn" data-emoji="🌹">🌹</button>
+                    <button class="emoji-btn" data-emoji="🎉">🎉</button>
+                    <button class="emoji-btn" data-emoji="👋">👋</button>
+                </div>
+                <textarea id="message-input" class="message-input" placeholder="Введите сообщение..." rows="3"></textarea>
+                <button id="send-btn" class="send-btn">Отправить</button>
+            </div>
+        </div>
+    </div>
+    <script src='script.js'></script>
+</body>
+</html>
