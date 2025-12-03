@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=swipeheart_db
+      - POSTGRES_USER=swipeheart_user
+      - POSTGRES_PASSWORD=swipeheart_pass123
+    ports:
+      - "5432:5432"
+    networks:
+      - swipeheart_network
+
+  web:
+    build: .
+    command: gunicorn swipeheart_project.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://swipeheart_user:swipeheart_pass123@db:5432/swipeheart_db
+      - DEBUG=False
+      - SECRET_KEY=your-secret-key-change-in-production
+    depends_on:
+      - db
+    networks:
+      - swipeheart_network
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+
+networks:
+  swipeheart_network:
+    driver: bridge
