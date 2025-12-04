@@ -30,6 +30,7 @@ ENV/
 .env
 env/
 .env/
+/.env
 .venv/
 .envrc
 venv.bak/
@@ -57,4 +58,8 @@ db.sqlite3
 db.sqlite3-journal
 media/
 staticfiles/
-
+Fonts/
+/Fonts
+.vscode/
+/.vscode
+.github/
