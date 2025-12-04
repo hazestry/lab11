@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}SwipeHeart - Главная{% endblock %}
+
+{% block content %}
+<div class="hero-section text-center py-5">
+    <div class="container">
+        <h1 class="display-3 mb-4">
+            <i class="fas fa-heart text-danger"></i> SwipeHeart
+        </h1>
+        <p class="lead mb-5">Найдите свою вторую половинку прямо сейчас!</p>
+        
+        {% if not user.is_authenticated %}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h2 class="card-title mb-4">Начните знакомиться</h2>
+                        <div class="d-grid gap-3">
+                            <a href="{% url 'users:register' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-user-plus"></i> Регистрация
+                            </a>
+                            <a href="{% url 'users:login' %}" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-sign-in-alt"></i> Вход
+                            </a>
+                            <a href="{% url 'users:guest_enter' %}" class="btn btn-outline-secondary btn-lg">
+                                <i class="fas fa-eye"></i> Войти как гость
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h2 class="card-title mb-4">Добро пожаловать, {{ user.first_name }}!</h2>
+                        <div class="d-grid gap-3">
+                            <a href="{% url 'dating:profile_list' %}" class="btn btn-primary btn-lg">
+                                <i class="fas fa-users"></i> Смотреть профили
+                            </a>
+                            {% if not user.is_guest %}
+                            <a href="{% url 'dating:my_profile' %}" class="btn btn-outline-primary btn-lg">
+                                <i class="fas fa-user"></i> Мой профиль
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="row mt-5">
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-search fa-3x text-primary mb-3"></i>
+                    <h3>Умный поиск</h3>
+                    <p>Находите людей по интересам, возрасту и городу</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-heart fa-3x text-danger mb-3"></i>
+                    <h3>Лайки</h3>
+                    <p>Ставьте лайки понравившимся профилям</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="feature-card">
+                    <i class="fas fa-comments fa-3x text-success mb-3"></i>
+                    <h3>Сообщения</h3>
+                    <p>Общайтесь с интересными людьми</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

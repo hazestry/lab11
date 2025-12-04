@@ -1,31 +1,28 @@
-FROM python:3.11-slim
+FROM python:3.11-alpine
 
-# Устанавливаем зависимости системы
-RUN apt-get update && apt-get install -y \
-    postgresql-client \
-    libpq-dev \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Устанавливаем рабочую директорию
+
 WORKDIR /app
 
-# Копируем requirements.txt
+RUN apk add --no-cache \
+    postgresql-client \
+    postgresql-dev \
+    gcc \
+    musl-dev \
+    linux-headers
+
+
 COPY requirements.txt .
 
-# Устанавливаем Python зависимости
+
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Копируем проект
 COPY . .
+COPY entrypoint.sh /entrypoint.sh
+RUN sed -i 's/\r$//g' /entrypoint.sh && chmod +x /entrypoint.sh
 
-# Собираем статические файлы
-RUN python manage.py collectstatic --noinput || true
-
-# Открываем порт
 EXPOSE 8000
 
-# Запускаем миграции и сервер
-CMD python manage.py migrate && \
-    python manage.py collectstatic --noinput && \
-    gunicorn swipeheart_project.wsgi:application --bind 0.0.0.0:8000
+ENTRYPOINT ["/entrypoint.sh"]

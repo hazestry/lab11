@@ -25,6 +25,7 @@ eggs-info/
 venv/
 venv3/
 ENV/
+.env
 env/
 .env/
 .venv/

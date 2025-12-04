@@ -63,11 +63,11 @@ WSGI_APPLICATION = 'swipeheart_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default='swipeheart_db'),
-        'USER': config('DB_USER', default='swipeheart_user'),
-        'PASSWORD': config('DB_PASSWORD', default='swipeheart_pass123'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
+        'NAME': os.getenv('POSTGRES_DB', 'swipeheart_db'),
+        'USER': os.getenv('POSTGRES_USER', 'swipeheart_user'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'swipeheart_pass123'),
+        'HOST': os.getenv('ALLOWED_HOSTS', 'db'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 

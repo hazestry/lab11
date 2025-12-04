@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Экспорт данных - SwipeHeart{% endblock %}
+
+{% block content %}
+<h2 class="mb-4"><i class="fas fa-file-excel"></i> Экспорт данных в Excel</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-download"></i> Выберите данные для экспорта</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="export_profiles" id="exportProfiles" checked>
+                        <label class="form-check-label" for="exportProfiles">
+                            <strong>Профили пользователей</strong>
+                            <br>
+                            <small class="text-muted">
+                                ID, Пользователь, Возраст, Город, Образование, Профессия, Интересы, Цель, Статус, Даты
+                            </small>
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="export_messages" id="exportMessages" checked>
+                        <label class="form-check-label" for="exportMessages">
+                            <strong>Сообщения</strong>
+                            <br>
+                            <small class="text-muted">
+                                ID, Отправитель, Получатель, Текст, Прочитано, Дата отправки
+                            </small>
+                        </label>
+                    </div>
+                    
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="export_likes" id="exportLikes" checked>
+                        <label class="form-check-label" for="exportLikes">
+                            <strong>Лайки</strong>
+                            <br>
+                            <small class="text-muted">
+                                ID, От пользователя, Кому, Дата
+                            </small>
+                        </label>
+                    </div>
+                    
+                    <hr>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-download"></i> Скачать Excel файл
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card shadow">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Статистика базы данных</h5>
+            </div>
+            <div class="card-body">
+                <div class="stat-item mb-3">
+                    <i class="fas fa-users fa-2x text-primary"></i>
+                    <div class="ms-3">
+                      <h4>{{ stats.profiles_count }}</h4>
+                    <p class="mb-0">Профилей</p>
+                </div>
+            </div>
+            
+            <div class="stat-item mb-3">
+                <i class="fas fa-envelope fa-2x text-success"></i>
+                <div class="ms-3">
+                    <h4>{{ stats.messages_count }}</h4>
+                    <p class="mb-0">Сообщений</p>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <i class="fas fa-heart fa-2x text-danger"></i>
+                <div class="ms-3">
+                    <h4>{{ stats.likes_count }}</h4>
+                    <p class="mb-0">Лайков</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card shadow mt-3">
+        <div class="card-header bg-warning">
+            <h6 class="mb-0"><i class="fas fa-info-circle"></i> Информация</h6>
+        </div>
+        <div class="card-body">
+            <p class="small mb-0">
+                Экспорт данных доступен только администраторам. 
+                Файл будет содержать актуальные данные на момент выгрузки.
+            </p>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}

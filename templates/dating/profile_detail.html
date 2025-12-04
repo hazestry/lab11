@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ profile.user.get_full_name }} - SwipeHeart{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card shadow-lg">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <span class="avatar-emoji-large">{{ profile.avatar }}</span>
+                    <h2 class="mt-3">{{ profile.user.first_name }} {{ profile.user.last_name }}, {{ profile.age }}</h2>
+                    <p class="text-muted">
+                        <i class="fas fa-map-marker-alt"></i> {{ profile.city }}
+                    </p>
+                </div>
+                
+                <hr>
+                
+                <div class="profile-details">
+                    <h4><i class="fas fa-info-circle"></i> Основная информация</h4>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>Образование:</strong> {{ profile.education }}</p>
+                            <p><strong>Профессия:</strong> {{ profile.profession }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Цель знакомства:</strong> {{ profile.relationship_goal }}</p>
+                            <p><strong>Семейное положение:</strong> {{ profile.status }}</p>
+                        </div>
+                    </div>
+                    
+                    <h4><i class="fas fa-heart"></i> Интересы</h4>
+                    <div class="interests-tags mb-3">
+                        {% for interest in profile.get_interests_list %}
+                        <span class="badge bg-primary">{{ interest }}</span>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if profile.bio %}
+                    <h4><i class="fas fa-user"></i> О себе</h4>
+                    <p>{{ profile.bio }}</p>
+                    {% endif %}
+                </div>
+                
+                {% if not is_guest and user != profile.user %}
+                <hr>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                    <button class="btn btn-danger btn-lg like-btn" data-user-id="{{ profile.user.id }}">
+                        <i class="fas fa-heart"></i> 
+                        <span class="like-text">{{ user_liked|yesno:"Убрать лайк,Лайкнуть" }}</span>
+                    </button>
+                    <a href="{% url 'dating:messages' profile.user.id %}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-envelope"></i> Написать сообщение
+                    </a>
+                </div>
+                {% endif %}
+                
+                <div class="text-center mt-3">
+                    <a href="{% url 'dating:profile_list' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left"></i> Назад к списку
+                    </a>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <small>
+                    <i class="far fa-calendar-plus"></i> Создан: {{ profile.created_at|date:"d.m.Y H:i" }} | 
+                    <i class="far fa-calendar-check"></i> Обновлен: {{ profile.updated_at|date:"d.m.Y H:i" }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+$(document).ready(function() {
+    $('.like-btn').click(function() {
+        var btn = $(this);
+        var userId = btn.data('user-id');
+        
+        $.ajax({
+            url: '/like/' + userId + '/',
+            type: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                if (response.status === 'liked') {
+                    btn.find('.like-text').text('Убрать лайк');
+                    btn.addClass('btn-danger').removeClass('btn-outline-danger');
+                } else {
+                    btn.find('.like-text').text('Лайкнуть');
+                    btn.addClass('btn-outline-danger').removeClass('btn-danger');
+                }
+                
+                // Показываем уведомление
+                showNotification(response.message, 'success');
+            },
+            error: function(xhr) {
+                var error = xhr.responseJSON ? xhr.responseJSON.error : 'Ошибка';
+                showNotification(error, 'danger');
+            }
+        });
+    });
+});
+
+function showNotification(message, type) {
+    var html = '<div class="alert alert-' + type + ' alert-dismissible fade show position-fixed top-0 end-0 m-3" style="z-index: 9999;">' +
+               message +
+               '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>' +
+               '</div>';
+    $('body').append(html);
+    
+    setTimeout(function() {
+        $('.alert').alert('close');
+    }, 3000);
+}
+</script>
+{% endblock %}
