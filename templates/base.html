@@ -34,9 +34,14 @@
                             </a>
                         </li>
                         {% if not user.is_guest %}
-                        <li class="nav-item">
+                        <li class="nav-item position-relative">
                             <a class="nav-link" href="{% url 'dating:messages' %}">
                                 <i class="fas fa-envelope"></i> Сообщения
+                                {% if unread_messages_count > 0 %}
+                                <span class="badge-notification">
+                                    {{ unread_messages_count }}
+                                </span>
+                                {% endif %}
                             </a>
                         </li>
                         <li class="nav-item">
@@ -106,7 +111,7 @@
         <div class="container">
             <p>&copy; 2024 SwipeHeart. Все права защищены.</p>
             <p>
-                <small>Последнее обновление: {{ request.META.HTTP_LAST_MODIFIED|default:"N/A" }}</small>
+                <small>Последнее обновление: {% now "d.m.Y H:i" %}</small>
             </p>
         </div>
     </footer>
