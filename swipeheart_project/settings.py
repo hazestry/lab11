@@ -1,14 +1,17 @@
 from pathlib import Path
-from decouple import config, Csv
 import os
 
 # Build paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security settings
-SECRET_KEY = config('SECRET_KEY', default='django-insecure-XXX')
-DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+SECRET_KEY = os.getenv('SECRET_KEY','django-insecure-XXX')
+DEBUG = True
+import os
+
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -66,7 +69,7 @@ DATABASES = {
         'NAME': os.getenv('POSTGRES_DB', 'swipeheart_db'),
         'USER': os.getenv('POSTGRES_USER', 'swipeheart_user'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', 'swipeheart_pass123'),
-        'HOST': os.getenv('ALLOWED_HOSTS', 'db'),
+        'HOST': os.getenv('DB_HOST', 'db'),
         'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
